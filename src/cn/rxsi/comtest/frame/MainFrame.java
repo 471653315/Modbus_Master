@@ -57,8 +57,8 @@ public class MainFrame extends JFrame {
 	private JComboBox mCommChoice = new JComboBox();
 	private JComboBox mBaudrateChoice = new JComboBox();
 	private ButtonGroup mDataChoice = new ButtonGroup();
-	private JRadioButton mDataASCIIChoice = new JRadioButton("ASCII", true);
-	private JRadioButton mDataHexChoice = new JRadioButton("Hex");
+	private JRadioButton mDataASCIIChoice = new JRadioButton("RTU", true);
+	private JRadioButton mDataHexChoice = new JRadioButton("ASCII");
 
 
 	private JPanel mOperatePanel = new JPanel();
@@ -321,7 +321,14 @@ public class MainFrame extends JFrame {
 
 		
 		if (mDataASCIIChoice.isSelected()) {
-			String data1=crcUtils.getCrc(data.getBytes());
+			String []aString=data.split("-");
+			String bString=aString[0];
+			for(int i=1;i<aString.length;i++) {
+				bString+=aString[i];
+			}
+			//String bString2=bString.toUpperCase();
+			//System.out.println("aaaaaaa+  "+bString);
+			String data1=crcUtils.getCrc(bString.getBytes());
 			String data2=data+"-"+data1.substring(0, 2)+"-"+data1.substring(2,4);
 			SerialPortManager.sendToPort(mSerialport, data2.getBytes());
 		}
